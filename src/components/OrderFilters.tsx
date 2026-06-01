@@ -8,32 +8,24 @@ export default function OrderFilters({ q, status }: { q?: string; status?: strin
     <form
       method="get"
       role="search"
-      style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 20 }}
+      style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 20 }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <label htmlFor="q" style={{ fontSize: 12, color: '#555' }}>
-          Buscar (order_id o buyer_id)
-        </label>
+      <div className="term-field">
+        <label htmlFor="q">Buscar (order_id o buyer_id)</label>
         <input
           id="q"
           name="q"
           type="search"
           defaultValue={q ?? ''}
           placeholder="uuid o user_..."
-          style={{ padding: '8px 10px', border: '1px solid #ccc', borderRadius: 6, minWidth: 240 }}
+          className="term-input"
+          style={{ minWidth: 240 }}
         />
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <label htmlFor="status" style={{ fontSize: 12, color: '#555' }}>
-          Estado
-        </label>
-        <select
-          id="status"
-          name="status"
-          defaultValue={status ?? ''}
-          style={{ padding: '8px 10px', border: '1px solid #ccc', borderRadius: 6 }}
-        >
+      <div className="term-field">
+        <label htmlFor="status">Estado</label>
+        <select id="status" name="status" defaultValue={status ?? ''} className="term-select">
           <option value="">Todos</option>
           {STATUSES.map((s) => (
             <option key={s} value={s}>
@@ -43,13 +35,10 @@ export default function OrderFilters({ q, status }: { q?: string; status?: strin
         </select>
       </div>
 
-      <button
-        type="submit"
-        style={{ padding: '9px 16px', background: '#111', color: '#fff', border: 0, borderRadius: 6, cursor: 'pointer' }}
-      >
+      <button type="submit" className="term-btn">
         Filtrar
       </button>
-      <a href="/admin" style={{ padding: '9px 12px', color: '#555', fontSize: 14 }}>
+      <a href="/admin" className="term-btn term-btn--outline">
         Limpiar
       </a>
     </form>

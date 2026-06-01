@@ -17,42 +17,39 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Sólo finance_admin / system_admin (docs/05.usuarios.md)
   if (!isAdminRole(sessionClaims?.metadata?.role)) {
     return (
-      <main style={{ maxWidth: 520, margin: '80px auto', fontFamily: 'sans-serif', padding: '0 16px' }}>
-        <h1 style={{ fontSize: 22 }}>403 — Acceso restringido</h1>
-        <p style={{ color: '#555' }}>
-          Necesitás el rol <code>finance_admin</code> para acceder al panel financiero.
-        </p>
-        <div style={{ marginTop: 16 }}>
-          <UserButton />
+      <main className="term-center">
+        <div className="term-card term-card--orange" style={{ maxWidth: 520, width: '100%' }}>
+          <p className="term-label term-label--orange">Acceso denegado</p>
+          <h1 className="term-h term-h--md" style={{ marginBottom: 12 }}>
+            403 — Acceso restringido
+          </h1>
+          <p className="term-muted">
+            Necesitás el rol <code style={{ color: 'var(--green)' }}>finance_admin</code> para acceder
+            al panel financiero.
+          </p>
+          <div style={{ marginTop: 20 }}>
+            <UserButton />
+          </div>
         </div>
       </main>
     );
   }
 
   return (
-    <div style={{ fontFamily: 'sans-serif' }}>
-      <header
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '12px 24px',
-          borderBottom: '1px solid #eee',
-        }}
-      >
-        <nav style={{ display: 'flex', gap: 16, alignItems: 'center' }} aria-label="Navegación principal">
-          <Link href="/admin" style={{ fontWeight: 700, color: '#111', textDecoration: 'none' }}>
-            💳 Panel Financiero
+    <div>
+      <header className="term-topbar">
+        <nav aria-label="Navegación principal">
+          <Link href="/admin" className="term-h term-h--md" style={{ fontSize: 20 }}>
+            ▌ Panel Financiero
           </Link>
-          <Link href="/admin" style={{ color: '#555', textDecoration: 'none' }}>
+          <Link href="/admin" className="term-muted">
             Órdenes
           </Link>
         </nav>
         {/* UserButton incluye el logout (req. Etapa 2: logout admin) */}
         <UserButton />
-
       </header>
-      <main style={{ maxWidth: 980, margin: '0 auto', padding: '24px 16px' }}>{children}</main>
+      <main className="term-shell">{children}</main>
     </div>
   );
 }

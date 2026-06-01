@@ -18,25 +18,33 @@ export default function Pagination({ page, totalPages, params }: PaginationProps
   if (totalPages <= 1) return null;
 
   const linkStyle = (disabled: boolean) => ({
-    padding: '6px 12px',
-    border: '1px solid #ccc',
-    borderRadius: 6,
-    color: disabled ? '#bbb' : '#111',
     pointerEvents: disabled ? ('none' as const) : ('auto' as const),
-    textDecoration: 'none',
-    fontSize: 14,
+    opacity: disabled ? 0.4 : 1,
   });
 
   return (
-    <nav aria-label="Paginación" style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 20 }}>
-      <a href={buildHref(params, page - 1)} aria-disabled={page <= 1} style={linkStyle(page <= 1)}>
-        ← Anterior
+    <nav
+      aria-label="Paginación"
+      style={{ display: 'flex', gap: 12, alignItems: 'center', justifyContent: 'center', marginTop: 24 }}
+    >
+      <a
+        href={buildHref(params, page - 1)}
+        aria-disabled={page <= 1}
+        className="term-btn term-btn--outline"
+        style={linkStyle(page <= 1)}
+      >
+        ‹
       </a>
-      <span style={{ fontSize: 14, color: '#555' }} aria-current="page">
-        Página {page} de {totalPages}
+      <span className="term-label" style={{ margin: 0 }} aria-current="page">
+        Pág {page} // {totalPages}
       </span>
-      <a href={buildHref(params, page + 1)} aria-disabled={page >= totalPages} style={linkStyle(page >= totalPages)}>
-        Siguiente →
+      <a
+        href={buildHref(params, page + 1)}
+        aria-disabled={page >= totalPages}
+        className="term-btn term-btn--outline"
+        style={linkStyle(page >= totalPages)}
+      >
+        ›
       </a>
     </nav>
   );

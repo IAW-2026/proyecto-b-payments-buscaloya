@@ -28,6 +28,7 @@ export default function PaymentBrick({ preferenceId, totalAmount, orderId }: Pro
     <Payment
       initialization={{ amount: totalAmount, preferenceId }}
       customization={{
+        visual: { style: { theme: 'dark' } },
         paymentMethods: {
           creditCard: 'all',
           debitCard: 'all',

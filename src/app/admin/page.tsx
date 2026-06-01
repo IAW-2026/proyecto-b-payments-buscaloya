@@ -58,21 +58,20 @@ export default async function AdminOrdersPage({ searchParams }: AdminPageProps) 
 
   return (
     <section>
-      <h1 style={{ fontSize: 24, marginBottom: 4 }}>Órdenes</h1>
-      <p style={{ color: '#666', fontSize: 14, marginBottom: 24 }}>
-        {total} órdenes en total · Ingresos confirmados (paid + closed): <strong>${paidRevenue.toFixed(2)}</strong>
+      <p className="term-label">Telemetría financiera</p>
+      <h1 className="term-h term-h--lg" style={{ marginBottom: 8 }}>Órdenes</h1>
+      <p className="term-muted" style={{ marginBottom: 24 }}>
+        {total} órdenes en total · Ingresos confirmados (paid + closed):{' '}
+        <strong style={{ color: 'var(--green)' }}>${paidRevenue.toFixed(2)}</strong>
       </p>
 
       {/* Reporte por estado */}
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 28 }}>
         {(['payment_pending', 'paid', 'failed', 'cancelled', 'closed'] as OrderStatus[]).map((s) => (
-          <div
-            key={s}
-            style={{ border: '1px solid #eee', borderRadius: 8, padding: '10px 14px', minWidth: 140 }}
-          >
+          <div key={s} className="term-card" style={{ minWidth: 140, padding: '12px 14px' }}>
             <StatusBadge status={s} />
-            <p style={{ margin: '8px 0 0', fontSize: 20, fontWeight: 700 }}>{report[s]?.count ?? 0}</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#888' }}>${(report[s]?.amount ?? 0).toFixed(2)}</p>
+            <p style={{ margin: '10px 0 0', fontSize: 22, fontWeight: 700, color: '#fff' }}>{report[s]?.count ?? 0}</p>
+            <p className="term-muted mono" style={{ margin: 0, fontSize: 12 }}>${(report[s]?.amount ?? 0).toFixed(2)}</p>
           </div>
         ))}
       </div>
@@ -80,39 +79,37 @@ export default async function AdminOrdersPage({ searchParams }: AdminPageProps) 
       <OrderFilters q={q} status={status} />
 
       {error && (
-        <p style={{ color: '#b91c1c' }}>Error al cargar órdenes: {error.message}</p>
+        <p className="term-alert" style={{ color: 'var(--red)' }}>Error al cargar órdenes: {error.message}</p>
       )}
 
       {orders.length === 0 ? (
-        <p style={{ color: '#666' }}>No se encontraron órdenes con esos filtros.</p>
+        <p className="term-muted">No se encontraron órdenes con esos filtros.</p>
       ) : (
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-          <caption style={{ textAlign: 'left', color: '#888', fontSize: 12, marginBottom: 8 }}>
-            Listado de órdenes financieras
-          </caption>
+        <table className="term-table">
+          <caption>Listado de órdenes financieras</caption>
           <thead>
-            <tr style={{ textAlign: 'left', borderBottom: '2px solid #eee' }}>
-              <th style={{ padding: '8px 6px' }}>Order ID</th>
-              <th style={{ padding: '8px 6px' }}>Buyer</th>
-              <th style={{ padding: '8px 6px' }}>Estado</th>
-              <th style={{ padding: '8px 6px', textAlign: 'right' }}>Total</th>
-              <th style={{ padding: '8px 6px' }}>Creada</th>
+            <tr>
+              <th>Order ID</th>
+              <th>Buyer</th>
+              <th>Estado</th>
+              <th className="tr">Total</th>
+              <th>Creada</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((o) => (
-              <tr key={o.order_id} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                <td style={{ padding: '8px 6px' }}>
-                  <Link href={`/admin/orders/${o.order_id}`} style={{ color: '#1d4ed8', fontFamily: 'monospace' }}>
+              <tr key={o.order_id}>
+                <td>
+                  <Link href={`/admin/orders/${o.order_id}`} className="mono">
                     {o.order_id.slice(0, 8)}…
                   </Link>
                 </td>
-                <td style={{ padding: '8px 6px', fontFamily: 'monospace', color: '#555' }}>{o.buyer_id}</td>
-                <td style={{ padding: '8px 6px' }}>
+                <td className="mono term-muted">{o.buyer_id}</td>
+                <td>
                   <StatusBadge status={o.status} />
                 </td>
-                <td style={{ padding: '8px 6px', textAlign: 'right' }}>${Number(o.total_amount).toFixed(2)}</td>
-                <td style={{ padding: '8px 6px', color: '#888' }}>
+                <td className="tr mono">${Number(o.total_amount).toFixed(2)}</td>
+                <td className="term-muted">
                   {new Date(o.created_at).toLocaleDateString('es-AR')}
                 </td>
               </tr>

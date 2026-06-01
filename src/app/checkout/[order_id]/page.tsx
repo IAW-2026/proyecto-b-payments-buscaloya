@@ -9,9 +9,9 @@ interface PageProps {
 }
 
 const STATUS_LABELS: Record<string, { text: string; color: string }> = {
-  paid: { text: '¡Pago aprobado! Tu pedido está confirmado.', color: '#16a34a' },
-  failed: { text: 'El pago fue rechazado. Para reintentar, generá una nueva orden desde la app de compras.', color: '#dc2626' },
-  payment_pending: { text: 'El pago está en proceso.', color: '#d97706' },
+  paid: { text: '¡Pago aprobado! Tu pedido está confirmado.', color: '#39ff14' },
+  failed: { text: 'El pago fue rechazado. Para reintentar, generá una nueva orden desde la app de compras.', color: '#ff5252' },
+  payment_pending: { text: 'El pago está en proceso.', color: '#ff5a00' },
 };
 
 export default async function CheckoutPage({ params, searchParams }: PageProps) {
@@ -36,34 +36,34 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
   const isPaid = order.status === 'paid' || order.status === 'failed';
 
   return (
-    <main style={{ maxWidth: 520, margin: '48px auto', fontFamily: 'sans-serif', padding: '0 16px' }}>
-      <h1 style={{ fontSize: 22, marginBottom: 4 }}>Resumen de tu pedido</h1>
-      <p style={{ color: '#666', fontSize: 13, marginBottom: 24 }}>
-        Orden <code>{order.order_id}</code>
+    <main className="term-shell term-shell--narrow">
+      <p className="term-label">Checkout · Pago seguro</p>
+      <h1 className="term-h term-h--md" style={{ marginBottom: 8 }}>
+        Resumen de tu pedido
+      </h1>
+      <p className="term-muted mono" style={{ fontSize: 12, marginBottom: 24 }}>
+        Orden {order.order_id}
       </p>
 
       <ul style={{ padding: 0, listStyle: 'none', margin: '0 0 24px' }}>
         {order.items_snapshot.map((item: { product_id: string; name: string; unit_price: number; quantity: number }) => (
-          <li
-            key={item.product_id}
-            style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}
-          >
+          <li key={item.product_id} className="term-row">
             <span>{item.name} x{item.quantity}</span>
-            <span>${(item.unit_price * item.quantity).toFixed(2)}</span>
+            <span className="mono">${(item.unit_price * item.quantity).toFixed(2)}</span>
           </li>
         ))}
-        <li style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', color: '#666' }}>
+        <li className="term-row term-muted">
           <span>Envío</span>
-          <span>${order.delivery_cost.toFixed(2)}</span>
+          <span className="mono">${order.delivery_cost.toFixed(2)}</span>
         </li>
-        <li style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', fontWeight: 'bold', fontSize: 16 }}>
+        <li className="term-row term-row--total">
           <span>Total</span>
-          <span>${order.total_amount.toFixed(2)}</span>
+          <span className="mono">${order.total_amount.toFixed(2)}</span>
         </li>
       </ul>
 
       {feedback && (
-        <p style={{ color: feedback.color, padding: '12px', border: `1px solid ${feedback.color}`, borderRadius: 6, marginBottom: 24 }}>
+        <p className="term-alert" style={{ color: feedback.color, marginBottom: 24 }}>
           {feedback.text}
         </p>
       )}
@@ -77,7 +77,7 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
       )}
 
       {isPaid && (
-        <p style={{ color: STATUS_LABELS[order.status]?.color ?? '#666', fontWeight: 'bold' }}>
+        <p className="term-alert" style={{ color: STATUS_LABELS[order.status]?.color ?? 'var(--muted)', fontWeight: 700 }}>
           {STATUS_LABELS[order.status]?.text}
         </p>
       )}

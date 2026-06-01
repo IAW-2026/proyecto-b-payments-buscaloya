@@ -31,14 +31,19 @@ export default async function Home() {
 
   // El comprador no tiene órdenes asociadas en esta app
   return (
-    <main style={{ maxWidth: 520, margin: '80px auto', fontFamily: 'sans-serif', padding: '0 16px' }}>
-      <h1 style={{ fontSize: 22, marginBottom: 8 }}>No tenés órdenes para pagar</h1>
-      <p style={{ color: '#555', lineHeight: 1.6 }}>
-        Todavía no hay ninguna orden asociada a tu cuenta. Las órdenes se generan desde la app de
-        compras; cuando tengas una pendiente vas a poder pagarla desde acá.
-      </p>
-      <div style={{ marginTop: 16 }}>
-        <UserButton />
+    <main className="term-center">
+      <div className="term-card term-card--green" style={{ maxWidth: 520, width: '100%' }}>
+        <p className="term-label">Módulo de pagos · BuscaloYA</p>
+        <h1 className="term-h term-h--md" style={{ marginBottom: 12 }}>
+          No tenés órdenes para pagar
+        </h1>
+        <p className="term-muted" style={{ lineHeight: 1.7 }}>
+          Todavía no hay ninguna orden asociada a tu cuenta. Las órdenes se generan desde la app de
+          compras; cuando tengas una pendiente vas a poder pagarla desde acá.
+        </p>
+        <div style={{ marginTop: 20 }}>
+          <UserButton />
+        </div>
       </div>
     </main>
   );
