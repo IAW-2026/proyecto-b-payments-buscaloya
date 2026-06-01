@@ -23,6 +23,33 @@ La autenticación es con **Clerk**. Se ingresa por la raíz (`/`), que muestra e
 | **Administrador financiero** (`finance_admin`) | Redirige al panel `/admin`: listado de órdenes, totales por estado y gestión de estado. | Usuario: `adminpayment@iaw.com` · Clave: `Iaw#5656` |
 | **Comprador (usuario final)** | Redirige al checkout de su orden pendiente para pagarla con MercadoPago. | Usuario: `userpayment@iaw.com` · Clave: `Iaw#5656` |
 
+## 💳 Tarjetas de prueba (MercadoPago sandbox)
+
+Para pagar como comprador, usá cualquiera de estas tarjetas de prueba:
+
+| Tarjeta | Número | CVV | Vencimiento |
+|---------|--------|-----|-------------|
+| Mastercard | `5031 7557 3453 0604` | `123` | `11/30` |
+| Visa | `4509 9535 6623 3704` | `123` | `11/30` |
+| American Express | `3711 803032 57522` | `1234` | `11/30` |
+| Mastercard Débito | `5287 3383 1025 3304` | `123` | `11/30` |
+| Visa Débito | `4002 7686 9439 5619` | `123` | `11/30` |
+
+El **resultado del pago lo define el nombre del titular** de la tarjeta:
+
+| Titular | Resultado |
+|---------|-----------|
+| `APRO` | Pago aprobado |
+| `OTHE` | Rechazado por error general |
+| `CONT` | Pendiente de pago |
+| `CALL` | Rechazado con validación para autorizar |
+| `FUND` | Rechazado por importe insuficiente |
+| `SECU` | Rechazado por código de seguridad inválido |
+| `EXPI` | Rechazado por fecha de vencimiento |
+| `FORM` | Rechazado por error de formulario |
+
+Documento de identidad: tipo **DNI**, número `12345678`.
+
 ## 🚀 Desarrollo local
 
 ```bash
