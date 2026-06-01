@@ -54,8 +54,8 @@ Documento de identidad: tipo **DNI**, número `12345678`.
 
 ```bash
 cp .env.example .env.local   # completar valores
-npm install
-npm run dev                  # http://localhost:3000
+pnpm install
+pnpm dev                     # http://localhost:3000
 ```
 
 Base de datos: ejecutar `supabase/schema.sql` y luego `supabase/seed.sql` en el SQL editor de Supabase.
