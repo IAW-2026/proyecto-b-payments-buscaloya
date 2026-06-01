@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { initMercadoPago, Payment } from '@mercadopago/sdk-react';
 
 initMercadoPago(process.env.NEXT_PUBLIC_MP_PUBLIC_KEY!, { locale: 'es-AR' });
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export default function PaymentBrick({ preferenceId, totalAmount, orderId }: Props) {
+  const router = useRouter();
+
   // Al desmontar, destruir el brick para que un re-montaje no lo duplique.
   // Bug conocido del SDK: si se re-renderiza sin unmount, el brick se apila.
   // https://www.mercadopago.com.ar/developers/es/docs/checkout-bricks/additional-content/possible-errors
@@ -36,7 +39,10 @@ export default function PaymentBrick({ preferenceId, totalAmount, orderId }: Pro
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ formData, order_id: orderId }),
         });
-        return res.json();
+        const result = await res.json();
+        // Refrescar el Server Component para que muestre el nuevo estado sin F5
+        router.refresh();
+        return result;
       }}
       onError={(error: unknown) => console.error('MercadoPago Brick error:', error)}
     />
