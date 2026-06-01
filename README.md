@@ -20,8 +20,8 @@ La autenticación es con **Clerk**. Se ingresa por la raíz (`/`), que muestra e
 
 | Rol | Al iniciar sesión | Credenciales |
 |-----|-------------------|--------------|
-| **Administrador financiero** (`finance_admin`) | Redirige al panel `/admin`: listado de órdenes, totales por estado y gestión de estado. | Usuario: `<email-admin>` · Clave: `<clave-admin>` |
-| **Comprador (usuario final)** | Redirige al checkout de su orden pendiente para pagarla con MercadoPago. | Usuario: `<email-comprador>` · Clave: `<clave-comprador>` |
+| **Administrador financiero** (`finance_admin`) | Redirige al panel `/admin`: listado de órdenes, totales por estado y gestión de estado. | Usuario: `adminpayment@iaw.com` · Clave: `Iaw#5656` |
+| **Comprador (usuario final)** | Redirige al checkout de su orden pendiente para pagarla con MercadoPago. | Usuario: `userpayment@iaw.com` · Clave: `Iaw#5656` |
 
 ## 🚀 Desarrollo local
 
