@@ -16,4 +16,10 @@ declare global {
       role?: AppRole;
     };
   }
+
+  // Controlador global que expone el Payment Brick de MercadoPago.
+  // Lo usamos para destruir la instancia y evitar bricks duplicados.
+  interface Window {
+    paymentBrickController?: { unmount: () => void };
+  }
 }
