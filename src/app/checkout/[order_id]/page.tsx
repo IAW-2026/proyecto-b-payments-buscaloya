@@ -10,7 +10,7 @@ interface PageProps {
 
 const STATUS_LABELS: Record<string, { text: string; color: string }> = {
   paid: { text: '¡Pago aprobado! Tu pedido está confirmado.', color: '#16a34a' },
-  failed: { text: 'El pago fue rechazado. Podés intentarlo de nuevo.', color: '#dc2626' },
+  failed: { text: 'El pago fue rechazado. Para reintentar, generá una nueva orden desde la app de compras.', color: '#dc2626' },
   payment_pending: { text: 'El pago está en proceso.', color: '#d97706' },
 };
 
