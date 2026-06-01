@@ -42,5 +42,5 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 });
 
 export const config = {
-  matcher: ['/api/:path*', '/checkout/:path*', '/admin/:path*'],
+  matcher: ['/', '/api/:path*', '/checkout/:path*', '/admin/:path*'],
 };

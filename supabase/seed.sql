@@ -3,8 +3,9 @@
 -- Correr DESPUÉS de schema.sql, en Supabase → SQL Editor.
 --
 -- Genera 18 órdenes en los 5 estados, con snapshots realistas.
--- NOTA: para probar el checkout con tu usuario, cambiá el buyer_id de
--- alguna fila por tu userId real de Clerk (formato user_xxx).
+-- NOTA: 3 órdenes están asignadas al comprador de prueba (su userId real
+-- de Clerk, formato user_xxx). Al loguearse, la raíz lo lleva a la
+-- payment_pending. Para usar OTRA cuenta, reemplazá ese userId abajo.
 -- ──────────────────────────────────────────────────────────────
 
 insert into orders
@@ -13,7 +14,7 @@ insert into orders
    items_snapshot, delivery_address_snapshot, delivery_quote_snapshot, created_at)
 values
 -- ── payment_pending ──────────────────────────────────────────
-(gen_random_uuid(), 'user_buyer_ana',   gen_random_uuid(), 'payment_pending', 4150.00, 350.00,
+(gen_random_uuid(), 'user_3EW6n41Kj3ezKn0swarHTOM3f9u', gen_random_uuid(), 'payment_pending', 4150.00, 350.00,
  'MP-1001', null,
  '[{"product_id":"prod_pizza","seller_id":"user_seller_pizza","name":"Pizza Especial","unit_price":1500.00,"quantity":2},{"product_id":"prod_papas","seller_id":"user_seller_pizza","name":"Papas fritas","unit_price":800.00,"quantity":1}]'::jsonb,
  '{"street":"Av. Corrientes 1234","city":"Buenos Aires","zip":"1043"}'::jsonb,
@@ -32,7 +33,7 @@ values
  '{"quote_id":"quo_1003","cost":300.00,"estimated_minutes":20}'::jsonb, now() - interval '30 minutes'),
 
 -- ── paid ─────────────────────────────────────────────────────
-(gen_random_uuid(), 'user_buyer_ana',   gen_random_uuid(), 'paid', 5600.00, 600.00,
+(gen_random_uuid(), 'user_3EW6n41Kj3ezKn0swarHTOM3f9u', gen_random_uuid(), 'paid', 5600.00, 600.00,
  'MP-2001', 112233445566,
  '[{"product_id":"prod_milanapo","seller_id":"user_seller_bodegon","name":"Milanesa napolitana","unit_price":2500.00,"quantity":2}]'::jsonb,
  '{"street":"Rivadavia 980","city":"Rosario","zip":"2000"}'::jsonb,
@@ -69,7 +70,7 @@ values
  '{"street":"Colón 450","city":"Mar del Plata","zip":"7600"}'::jsonb,
  '{"quote_id":"quo_3002","cost":300.00,"estimated_minutes":28}'::jsonb, now() - interval '2 days'),
 
-(gen_random_uuid(), 'user_buyer_ana',   gen_random_uuid(), 'failed', 1620.00, 420.00,
+(gen_random_uuid(), 'user_3EW6n41Kj3ezKn0swarHTOM3f9u', gen_random_uuid(), 'failed', 1620.00, 420.00,
  'MP-3003', 112233440003,
  '[{"product_id":"prod_wok","seller_id":"user_seller_wok","name":"Wok de pollo","unit_price":1200.00,"quantity":1}]'::jsonb,
  '{"street":"Güemes 200","city":"Salta","zip":"4400"}'::jsonb,

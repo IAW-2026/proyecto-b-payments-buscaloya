@@ -15,13 +15,13 @@ Construido con **Next.js 15** (App Router), **Supabase** (PostgreSQL), **Mercado
 
 ## 👤 Acceso por tipo de usuario
 
-La autenticación es con **Clerk**. El rol se define en `publicMetadata.role`: `finance_admin`
-habilita el panel `/admin`; cualquier otro usuario es comprador.
+La autenticación es con **Clerk**. Se ingresa por la raíz (`/`), que muestra el login y luego
+**enruta automáticamente según el rol** (definido en `publicMetadata.role`):
 
-| Rol | Cómo acceder | Credenciales |
-|-----|--------------|--------------|
-| **Administrador financiero** | Iniciar sesión y abrir `/admin` (listado de órdenes, totales y gestión de estado). | Usuario: `<email-admin>` · Clave: `<clave-admin>` |
-| **Comprador (usuario final)** | Iniciar sesión y abrir `/checkout/{order_id}` de una orden propia para pagar. | Usuario: `<email-comprador>` · Clave: `<clave-comprador>` |
+| Rol | Al iniciar sesión | Credenciales |
+|-----|-------------------|--------------|
+| **Administrador financiero** (`finance_admin`) | Redirige al panel `/admin`: listado de órdenes, totales por estado y gestión de estado. | Usuario: `<email-admin>` · Clave: `<clave-admin>` |
+| **Comprador (usuario final)** | Redirige al checkout de su orden pendiente para pagarla con MercadoPago. | Usuario: `<email-comprador>` · Clave: `<clave-comprador>` |
 
 ## 🚀 Desarrollo local
 
