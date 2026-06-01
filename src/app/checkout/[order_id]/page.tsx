@@ -1,5 +1,6 @@
 import { notFound, redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
+import { UserButton } from '@clerk/nextjs';
 import { supabase } from '@/lib/supabase';
 import PaymentBrick from './PaymentBrick';
 
@@ -36,7 +37,14 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
   const isPaid = order.status === 'paid' || order.status === 'failed';
 
   return (
-    <main className="term-shell term-shell--narrow">
+    <div>
+      {/* Barra superior con logout: permite salir y entrar con otra cuenta desde el checkout */}
+      <header className="term-topbar">
+        <span className="term-label">Módulo de pagos · BuscaloYA</span>
+        {/* UserButton incluye el logout */}
+        <UserButton />
+      </header>
+      <main className="term-shell term-shell--narrow">
       <p className="term-label">Checkout · Pago seguro</p>
       <h1 className="term-h term-h--md" style={{ marginBottom: 8 }}>
         Resumen de tu pedido
@@ -81,6 +89,7 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
           {STATUS_LABELS[order.status]?.text}
         </p>
       )}
-    </main>
+      </main>
+    </div>
   );
 }
