@@ -48,7 +48,12 @@ export default async function AdminOrdersPage({ searchParams }: AdminPageProps) 
     .range(from, to);
 
   if (status) query = query.eq('status', status);
-  if (q) query = query.or(`order_id::text.ilike.*${q}*,buyer_id.ilike.*${q}*`);
+  if (q) {
+    const fullUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(q);
+    query = fullUuid
+      ? query.eq('order_id', q)
+      : query.ilike('buyer_id', `%${q}%`);
+  }
 
   const { data, count, error } = await query;
   const orders = (data ?? []) as OrderRow[];
