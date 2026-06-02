@@ -41,23 +41,35 @@ export default async function AdminOrdersPage({ searchParams }: AdminPageProps) 
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
-  let query = supabase
-    .from('orders')
-    .select('order_id, buyer_id, status, total_amount, delivery_cost, created_at', { count: 'exact' })
-    .order('created_at', { ascending: false })
-    .range(from, to);
+  let error = null;
+  let orders: OrderRow[] = [];
+  let totalPages = 1;
 
-  if (status) query = query.eq('status', status);
   if (q) {
-    const fullUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(q);
-    query = fullUuid
-      ? query.eq('order_id', q)
-      : query.ilike('buyer_id', `%${q}%`);
+    const baseQuery = supabase
+      .from('orders')
+      .select('order_id, buyer_id, status, total_amount, delivery_cost, created_at')
+      .order('created_at', { ascending: false });
+    const { data: all, error: err } = status ? await baseQuery.eq('status', status) : await baseQuery;
+    error = err;
+    const lowerQ = q.toLowerCase();
+    const filtered = (all ?? []).filter(
+      (o) => o.order_id.toLowerCase().includes(lowerQ) || o.buyer_id.toLowerCase().includes(lowerQ)
+    ) as OrderRow[];
+    totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    orders = filtered.slice(from, to + 1);
+  } else {
+    let query = supabase
+      .from('orders')
+      .select('order_id, buyer_id, status, total_amount, delivery_cost, created_at', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to);
+    if (status) query = query.eq('status', status);
+    const { data, count, error: err } = await query;
+    error = err;
+    orders = (data ?? []) as OrderRow[];
+    totalPages = Math.max(1, Math.ceil((count ?? 0) / PAGE_SIZE));
   }
-
-  const { data, count, error } = await query;
-  const orders = (data ?? []) as OrderRow[];
-  const totalPages = Math.max(1, Math.ceil((count ?? 0) / PAGE_SIZE));
 
   const { report, paidRevenue, total } = await getReport();
 
