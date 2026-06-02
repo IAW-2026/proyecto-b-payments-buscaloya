@@ -48,7 +48,7 @@ export default async function AdminOrdersPage({ searchParams }: AdminPageProps) 
     .range(from, to);
 
   if (status) query = query.eq('status', status);
-  if (q) query = query.ilike('buyer_id', `%${q}%`);
+  if (q) query = query.or(`order_id::text.ilike.*${q}*,buyer_id.ilike.*${q}*`);
 
   const { data, count, error } = await query;
   const orders = (data ?? []) as OrderRow[];
