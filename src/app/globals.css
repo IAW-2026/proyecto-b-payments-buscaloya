@@ -1,0 +1,224 @@
+/* ──────────────────────────────────────────────────────────────
+   Tema "tactical terminal" — paleta compartida con las apps hermanas
+   (negro + verde/naranja/magenta neón, mono + grotesca pesada).
+   ────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #181818;
+  --border: #2a2a2a;
+  --green: #39ff14;
+  --orange: #ff5a00;
+  --magenta: #ff1b8d;
+  --red: #ff5252;
+  --text: #e8e8e8;
+  --muted: #7a7a7a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  color: var(--text);
+  font-family: var(--font-mono), ui-monospace, "SFMono-Regular", monospace;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ── Layout ─────────────────────────────────────────── */
+.term-shell {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.term-shell--narrow {
+  max-width: 560px;
+}
+.term-center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ── Tipografía ─────────────────────────────────────── */
+.term-h {
+  font-family: var(--font-heading), Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 0.95;
+  margin: 0;
+}
+.term-h--xl { font-size: 64px; }
+.term-h--lg { font-size: 40px; }
+.term-h--md { font-size: 24px; }
+
+.term-label {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 10px;
+}
+.term-label--orange { color: var(--orange); }
+.term-muted { color: var(--muted); }
+.mono { font-family: var(--font-mono), monospace; }
+.tr { text-align: right; }
+
+/* ── Cards ──────────────────────────────────────────── */
+.term-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+.term-card--green { border-color: var(--green); }
+.term-card--orange { border-color: var(--orange); }
+
+/* ── Botones ────────────────────────────────────────── */
+.term-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #000;
+  cursor: pointer;
+  border-radius: 0;
+}
+.term-btn:hover { filter: brightness(1.12); text-decoration: none; }
+.term-btn:disabled { opacity: 0.45; cursor: default; filter: none; }
+.term-btn--outline {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+}
+.term-btn--outline:hover { border-color: var(--green); color: var(--green); }
+.term-btn--orange { background: var(--orange); border-color: var(--orange); color: #000; }
+
+/* ── Inputs ─────────────────────────────────────────── */
+.term-input,
+.term-select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 0;
+}
+.term-input:focus,
+.term-select:focus { outline: none; border-color: var(--green); }
+.term-input::placeholder {
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.term-field { display: flex; flex-direction: column; gap: 6px; }
+.term-field > label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Tabla ──────────────────────────────────────────── */
+.term-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.term-table caption {
+  text-align: left;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+.term-table thead tr { background: var(--green); }
+.term-table th {
+  padding: 12px 10px;
+  text-align: left;
+  color: #000;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+.term-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+.term-table tbody tr:hover { background: var(--surface-2); }
+
+/* ── Badge de estado ────────────────────────────────── */
+.term-badge {
+  display: inline-block;
+  border: 1px solid currentColor;
+  padding: 2px 8px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Alertas / feedback ─────────────────────────────── */
+.term-alert {
+  border: 1px solid currentColor;
+  padding: 12px 14px;
+  font-size: 13px;
+}
+
+/* ── Topbar (panel admin) ───────────────────────────── */
+.term-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.term-topbar nav { display: flex; gap: 20px; align-items: center; }
+
+/* ── Lista de resumen (checkout) ────────────────────── */
+.term-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.term-row--total {
+  font-weight: 700;
+  font-size: 16px;
+  border-bottom: none;
+  color: #fff;
+}
