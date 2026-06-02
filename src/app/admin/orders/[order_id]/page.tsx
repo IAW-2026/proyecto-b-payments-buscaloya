@@ -27,7 +27,7 @@ export default async function OrderDetailPage({ params }: DetailProps) {
   return (
     <section>
       <Link href="/admin" className="term-muted">
-        ‹// Volver al listado
+        ‹/ Volver al listado
       </Link>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '16px 0 4px' }}>
