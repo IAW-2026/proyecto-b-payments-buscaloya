@@ -10,7 +10,7 @@ const isPublicApiPath = createRouteMatcher([
 
 // Rutas de inter-servicio: validan su propia API key en el handler, no necesitan Clerk
 const isServiceApiPath = createRouteMatcher([
-  '/api/orders',
+  '/api/payments/orders',
   '/api/payments/issue',
   '/api/payments/operations/:order_id/close',
 ]);
