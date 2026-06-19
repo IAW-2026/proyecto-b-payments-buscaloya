@@ -12,9 +12,9 @@ export async function POST(req: NextRequest) {
   if (authError) return authError;
 
   const body: CreateOrderPayload = await req.json();
-  const { buyer_id, store_id, items, delivery_address, delivery_cost, quote_id, quote_estimated_minutes } = body;
+  const { buyer_id, store_id, items, delivery_address, delivery_cost, total, quote_id, quote_estimated_minutes } = body;
 
-  if (!buyer_id || !store_id || !items?.length || !delivery_address || delivery_cost == null || !quote_id || quote_estimated_minutes == null) {
+  if (!buyer_id || !store_id || !items?.length || !delivery_address || delivery_cost == null || total == null || !quote_id || quote_estimated_minutes == null) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
@@ -23,8 +23,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Each item must include seller_id' }, { status: 400 });
   }
 
-  const itemsTotal = items.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);
-  const totalAmount = itemsTotal + delivery_cost;
+  const totalAmount = total;
   const orderId = uuidv4();
 
   const preference = await mpPreference.create({

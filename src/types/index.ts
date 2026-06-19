@@ -25,6 +25,7 @@ export interface CreateOrderPayload {
   items: OrderItem[];
   delivery_address: DeliveryAddress;
   delivery_cost: number;
+  total: number;
   quote_id: string;
   quote_estimated_minutes: number;
 }
