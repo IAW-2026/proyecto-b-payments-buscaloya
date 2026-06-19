@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { validateApiKey } from '@/lib/api-auth';
 
 // POST /api/payments/issue — llamado por Seller App para consultar el estado de pago
 export async function POST(req: NextRequest) {
-  const auth = req.headers.get('authorization');
-  if (auth !== `Bearer ${process.env.SERVICE_TOKEN}`) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const authError = validateApiKey(req, process.env.SELLER_API_KEY);
+  if (authError) return authError;
 
   const { order_id } = await req.json();
 

@@ -3,14 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import { mpPreference } from '@/lib/mercadopago';
 import { notifySellerOrderCreated } from '@/lib/services/seller.service';
+import { validateApiKey } from '@/lib/api-auth';
 import type { CreateOrderPayload } from '@/types';
 
 // POST /api/orders — llamado por Seller App con el JWT del buyer y el delivery_cost ya calculado
 export async function POST(req: NextRequest) {
-  const auth = req.headers.get('authorization');
-  if (auth !== `Bearer ${process.env.SERVICE_TOKEN}`) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const authError = validateApiKey(req, process.env.SELLER_API_KEY);
+  if (authError) return authError;
 
   const body: CreateOrderPayload = await req.json();
   const { buyer_id, store_id, items, delivery_address, delivery_cost, quote_id, quote_estimated_minutes } = body;

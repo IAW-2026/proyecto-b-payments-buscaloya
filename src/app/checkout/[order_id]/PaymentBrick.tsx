@@ -41,8 +41,11 @@ export default function PaymentBrick({ preferenceId, totalAmount, orderId }: Pro
           body: JSON.stringify({ formData, order_id: orderId }),
         });
         const result = await res.json();
-        // Refrescar el Server Component para que muestre el nuevo estado sin F5
-        router.refresh();
+        if (result.status === 'paid' || result.status === 'failed') {
+          router.push(`${process.env.NEXT_PUBLIC_BUYER_APP_URL}/purchase`);
+        } else {
+          router.refresh();
+        }
         return result;
       }}
       onError={(error: unknown) => console.error('MercadoPago Brick error:', error)}

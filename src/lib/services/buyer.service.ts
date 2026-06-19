@@ -14,11 +14,11 @@ export async function notifyBuyerPaymentStatus(
   const buyerStatus = BUYER_STATUS_MAP[status];
   if (!buyerStatus) return; // solo notificar en estados definitivos que Buyer reconoce
 
-  await fetch(`${process.env.BUYER_APP_URL}/api/purchases/${orderId}/status`, {
+  await fetch(`${process.env.NEXT_PUBLIC_BUYER_APP_URL}/api/purchases/${orderId}/status`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.SERVICE_TOKEN}`,
+      Authorization: `Bearer ${process.env.PAYMENTS_API_KEY}`,
     },
     body: JSON.stringify({ status: buyerStatus }),
   });

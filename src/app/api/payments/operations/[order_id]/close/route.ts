@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { validateApiKey } from '@/lib/api-auth';
 import type { OrderItem } from '@/types';
 
 interface CloseOperationPayload {
@@ -20,10 +21,8 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ order_id: string }> }
 ) {
-  const auth = req.headers.get('authorization');
-  if (auth !== `Bearer ${process.env.SERVICE_TOKEN}`) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const authError = validateApiKey(req, process.env.DELIVERY_API_KEY);
+  if (authError) return authError;
 
   const { order_id } = await params;
   const body: CloseOperationPayload = await req.json();

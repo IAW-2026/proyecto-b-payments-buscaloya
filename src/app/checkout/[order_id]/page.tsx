@@ -33,6 +33,11 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
   // Verificar que el comprador autenticado es el dueño de la orden
   if (order.buyer_id !== userId) notFound();
 
+  // MercadoPago redirige con ?status=success|failure al completar el pago fuera del Brick
+  if (statusParam === 'success' || statusParam === 'failure') {
+    redirect(`${process.env.NEXT_PUBLIC_BUYER_APP_URL}/purchase`);
+  }
+
   const feedback = statusParam ? STATUS_LABELS[statusParam] : null;
   const isPaid = order.status === 'paid' || order.status === 'failed';
 
