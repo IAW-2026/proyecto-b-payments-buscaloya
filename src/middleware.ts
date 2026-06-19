@@ -8,6 +8,13 @@ const isPublicApiPath = createRouteMatcher([
   '/api/payments/process',
 ]);
 
+// Rutas de inter-servicio: validan su propia API key en el handler, no necesitan Clerk
+const isServiceApiPath = createRouteMatcher([
+  '/api/orders',
+  '/api/payments/issue',
+  '/api/payments/operations/:order_id/close',
+]);
+
 // Rutas que usan Clerk (browser del comprador / admin)
 const isCheckoutPath = createRouteMatcher(['/checkout(.*)']);
 const isAdminPath = createRouteMatcher(['/admin(.*)']);
@@ -17,6 +24,9 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 
   // Rutas API públicas — sin auth
   if (isPublicApiPath(req)) return NextResponse.next();
+
+  // Rutas de inter-servicio — la API key se valida en el route handler
+  if (isServiceApiPath(req)) return NextResponse.next();
 
   // Checkout — protegido por Clerk (JWT de sesión)
   if (isCheckoutPath(req)) {
