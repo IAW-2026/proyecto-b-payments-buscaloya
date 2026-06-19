@@ -8,7 +8,7 @@ import type { CreateOrderPayload } from '@/types';
 
 // POST /api/payments/orders — llamado por Seller App con el JWT del buyer y el delivery_cost ya calculado
 export async function POST(req: NextRequest) {
-  const authError = validateApiKey(req, process.env.SELLER_API_KEY);
+  const authError = validateApiKey(req, process.env.PAYMENTS_API_KEY);
   if (authError) return authError;
 
   const body: CreateOrderPayload = await req.json();

@@ -21,7 +21,7 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ order_id: string }> }
 ) {
-  const authError = validateApiKey(req, process.env.DELIVERY_API_KEY);
+  const authError = validateApiKey(req, process.env.PAYMENTS_API_KEY);
   if (authError) return authError;
 
   const { order_id } = await params;

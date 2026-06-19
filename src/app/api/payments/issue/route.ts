@@ -4,7 +4,7 @@ import { validateApiKey } from '@/lib/api-auth';
 
 // POST /api/payments/issue — llamado por Seller App para consultar el estado de pago
 export async function POST(req: NextRequest) {
-  const authError = validateApiKey(req, process.env.SELLER_API_KEY);
+  const authError = validateApiKey(req, process.env.PAYMENTS_API_KEY);
   if (authError) return authError;
 
   const { order_id } = await req.json();

@@ -6,7 +6,7 @@ export async function notifySellerOrderCreated(orderId: string): Promise<void> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.PAYMENTS_API_KEY}`,
+      Authorization: `Bearer ${process.env.SELLER_API_KEY}`,
     },
     body: JSON.stringify({ order_id: orderId, status: 'payment_pending' }),
   });
@@ -21,7 +21,7 @@ export async function notifySellerPaymentStatus(
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.PAYMENTS_API_KEY}`,
+      Authorization: `Bearer ${process.env.SELLER_API_KEY}`,
     },
     body: JSON.stringify({ order_id: orderId, status }),
   });

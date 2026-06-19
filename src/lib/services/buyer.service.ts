@@ -18,7 +18,7 @@ export async function notifyBuyerPaymentStatus(
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.PAYMENTS_API_KEY}`,
+      Authorization: `Bearer ${process.env.BUYER_API_KEY}`,
     },
     body: JSON.stringify({ status: buyerStatus }),
   });
