@@ -32,7 +32,7 @@ export interface CreateOrderPayload {
 export interface Order {
   order_id: string;
   buyer_id: string;
-  store_id: string;
+  store_id: string; // Clerk ID
   status: OrderStatus;
   total_amount: number;
   delivery_cost: number;

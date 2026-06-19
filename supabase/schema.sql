@@ -6,7 +6,7 @@
 create table if not exists orders (
   order_id                   uuid primary key,
   buyer_id                   text          not null,
-  store_id                   uuid          not null,
+  store_id                   text          not null,
   status                     text          not null
                                check (status in
                                  ('payment_pending','paid','failed','cancelled','closed')),
