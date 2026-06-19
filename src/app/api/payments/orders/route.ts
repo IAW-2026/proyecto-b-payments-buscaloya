@@ -12,9 +12,9 @@ export async function POST(req: NextRequest) {
   if (authError) return authError;
 
   const body: CreateOrderPayload = await req.json();
-  const { buyer_id, store_id, items, delivery_address, delivery_cost, total, quote_id, quote_estimated_minutes } = body;
+  const { buyer_id, store_id, items, delivery_address, delivery_cost, total, quote_id } = body;
 
-  if (!buyer_id || !store_id || !items?.length || !delivery_address || delivery_cost == null || total == null || !quote_id || quote_estimated_minutes == null) {
+  if (!buyer_id || !store_id || !items?.length || !delivery_address || delivery_cost == null || total == null || !quote_id) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     mp_preference_id: preference.id,
     items_snapshot: items,
     delivery_address_snapshot: delivery_address,
-    delivery_quote_snapshot: { quote_id, cost: delivery_cost, estimated_minutes: quote_estimated_minutes },
+    delivery_quote_snapshot: { quote_id, cost: delivery_cost },
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

@@ -27,7 +27,6 @@ export interface CreateOrderPayload {
   delivery_cost: number;
   total: number;
   quote_id: string;
-  quote_estimated_minutes: number;
 }
 
 export interface Order {
