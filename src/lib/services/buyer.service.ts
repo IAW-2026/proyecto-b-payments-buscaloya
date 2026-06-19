@@ -3,7 +3,7 @@ import type { OrderStatus } from '@/types';
 // Buyer App espera status en mayúsculas según contrato de API (docs/03-apis.md #3)
 const BUYER_STATUS_MAP: Partial<Record<OrderStatus, string>> = {
   paid: 'PAID',
-  cancelled: 'CANCELLED',
+  failed: 'CANCELLED',
 };
 
 // Llamado en Promise.all junto a Seller tras confirmar el pago
