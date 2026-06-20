@@ -84,7 +84,7 @@ El ciclo de vida operativo está centrado estrictamente en la logística y trasl
 ### Flujo de Payments
 El ciclo de vida de Payments está centrado estrictamente en la operación financiera de la transacción: desde la generación de la orden de compra hasta la liquidación final de los fondos a los participantes del sistema, garantizando que el dinero se mueva correctamente y en el orden adecuado.
 
-1. El **Seller App** envía el carrito del comprador a Payments con el costo de envío ya calculado (`POST /api/orders`).
+1. El **Seller App** envía el carrito del comprador a Payments con el costo de envío ya calculado (`POST /payments/orders`).
 2. Payments genera un `order_id` UUID único, crea la preferencia de pago en MercadoPago y registra la orden con estado `payment_pending`, incluyendo snapshots inmutables de ítems, dirección y cotización de delivery.
 3. Payments notifica al Seller App (fire-and-forget) que existe una nueva orden pendiente de pago (`POST /orders/{order_id}/notify`), y devuelve al Seller el `order_id`, `mp_preference_id`, total y estado.
 4. El Buyer App redirige al comprador a la página de checkout de Payments (`GET /checkout/{order_id}`), donde se muestra el resumen de la orden y el formulario de pago embebido (Payment Brick de MercadoPago).
