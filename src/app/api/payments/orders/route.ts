@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import { mpPreference } from '@/lib/mercadopago';
-import { notifySellerOrderCreated } from '@/lib/services/seller.service';
 import { validateApiKey } from '@/lib/api-auth';
 import type { CreateOrderPayload } from '@/types';
 
@@ -59,9 +58,6 @@ export async function POST(req: NextRequest) {
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  // Notificar a Seller que existe una nueva orden pendiente de pago (fire-and-forget)
-  notifySellerOrderCreated(orderId).catch(console.error);
 
   return NextResponse.json(
     {
