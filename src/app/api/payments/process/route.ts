@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mpPayment } from '@/lib/mercadopago';
 import { supabase } from '@/lib/supabase';
-import { notifySellerPaymentStatus } from '@/lib/services/seller.service';
 import { notifyBuyerPaymentStatus } from '@/lib/services/buyer.service';
 import type { OrderStatus } from '@/types';
 
@@ -46,12 +45,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
 
-  // Notificar a Seller y Buyer en paralelo si el pago tuvo resultado definitivo
   if (newStatus === 'paid' || newStatus === 'failed') {
-    await Promise.allSettled([
-      notifySellerPaymentStatus(order_id, newStatus),
-      notifyBuyerPaymentStatus(order_id, newStatus),
-    ]);
+    await notifyBuyerPaymentStatus(order_id, newStatus);
   }
 
   return NextResponse.json({ status: newStatus, payment_id: payment.id });
