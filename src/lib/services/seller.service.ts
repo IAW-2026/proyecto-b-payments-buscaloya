@@ -17,7 +17,7 @@ export async function notifySellerPaymentStatus(
   orderId: string,
   status: OrderStatus
 ): Promise<void> {
-  await fetch(`${process.env.SELLER_APP_URL}/api/orders/${orderId}/status`, {
+  await fetch(`${process.env.SELLER_APP_URL}/api/seller/orders/${orderId}/status`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
