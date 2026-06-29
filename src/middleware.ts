@@ -6,6 +6,7 @@ const isPublicApiPath = createRouteMatcher([
   '/api/health',
   '/api/payments/webhook',
   '/api/payments/process',
+  '/api/payments/simulate',
 ]);
 
 // Rutas de inter-servicio: validan su propia API key en el handler, no necesitan Clerk

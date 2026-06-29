@@ -4,6 +4,7 @@ import { UserButton } from '@clerk/nextjs';
 import { supabase } from '@/lib/supabase';
 import { mpPreference } from '@/lib/mercadopago';
 import PaymentBrick from './PaymentBrick';
+import SimulatePaymentButton from './SimulatePaymentButton';
 
 interface PageProps {
   params: Promise<{ order_id: string }>;
@@ -126,6 +127,9 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
           orderId={order.order_id}
         />
       )}
+
+      {/* Respaldo mientras MercadoPago no esté disponible: aprueba el pago sin MP */}
+      {!isPaid && <SimulatePaymentButton orderId={order.order_id} />}
 
       {isPaid && (
         <p className="term-alert" style={{ color: STATUS_LABELS[order.status]?.color ?? 'var(--muted)', fontWeight: 700 }}>
