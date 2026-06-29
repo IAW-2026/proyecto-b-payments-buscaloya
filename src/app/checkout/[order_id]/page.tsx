@@ -2,6 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
 import { UserButton } from '@clerk/nextjs';
 import { supabase } from '@/lib/supabase';
+import { mpPreference } from '@/lib/mercadopago';
 import PaymentBrick from './PaymentBrick';
 
 interface PageProps {
@@ -40,6 +41,43 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
 
   const feedback = statusParam ? STATUS_LABELS[statusParam] : null;
   const isPaid = order.status === 'paid' || order.status === 'failed';
+
+  let mpPreferenceId = order.mp_preference_id;
+
+  if (!isPaid && (!mpPreferenceId || mpPreferenceId.startsWith('MP-'))) {
+    try {
+      const preference = await mpPreference.create({
+        body: {
+          external_reference: order.order_id,
+          items: order.items_snapshot.map((item: any) => ({
+            id: item.product_id,
+            title: item.name,
+            quantity: item.quantity,
+            unit_price: Number(item.unit_price),
+            currency_id: 'ARS',
+          })),
+          back_urls: {
+            success: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/${order.order_id}?status=success`,
+            failure: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/${order.order_id}?status=failure`,
+            pending: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/${order.order_id}?status=pending`,
+          },
+          notification_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/payments/webhook`,
+        },
+      });
+
+      if (preference && preference.id) {
+        mpPreferenceId = preference.id;
+
+        // Actualizar en la base de datos para futuras cargas
+        await supabase
+          .from('orders')
+          .update({ mp_preference_id: mpPreferenceId })
+          .eq('order_id', order.order_id);
+      }
+    } catch (error) {
+      console.error('Error regenerating Mercado Pago preference:', error);
+    }
+  }
 
   return (
     <div>
@@ -81,9 +119,9 @@ export default async function CheckoutPage({ params, searchParams }: PageProps) 
         </p>
       )}
 
-      {!isPaid && order.mp_preference_id && (
+      {!isPaid && mpPreferenceId && (
         <PaymentBrick
-          preferenceId={order.mp_preference_id}
+          preferenceId={mpPreferenceId}
           totalAmount={order.total_amount}
           orderId={order.order_id}
         />

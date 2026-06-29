@@ -32,6 +32,7 @@ export default function PaymentBrick({ preferenceId, totalAmount, orderId }: Pro
         paymentMethods: {
           creditCard: 'all',
           debitCard: 'all',
+          mercadoPago: 'all',
         },
       }}
       onSubmit={async ({ formData }: { formData: unknown }) => {
