@@ -36,18 +36,25 @@ export default function PaymentBrick({ preferenceId, totalAmount, orderId }: Pro
         },
       }}
       onSubmit={async ({ formData }: { formData: unknown }) => {
-        const res = await fetch('/api/payments/process', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ formData, order_id: orderId }),
-        });
-        const result = await res.json();
-        if (result.status === 'paid' || result.status === 'failed') {
-          router.push(`${process.env.NEXT_PUBLIC_BUYER_APP_URL}/purchase`);
-        } else {
-          router.refresh();
+        console.log('PaymentBrick onSubmit called. formData:', formData);
+        try {
+          const res = await fetch('/api/payments/process', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ formData, order_id: orderId }),
+          });
+          const result = await res.json();
+          console.log('Payment process result:', result);
+          if (result.status === 'paid' || result.status === 'failed') {
+            router.push(`${process.env.NEXT_PUBLIC_BUYER_APP_URL}/purchase`);
+          } else {
+            router.refresh();
+          }
+          return result;
+        } catch (error) {
+          console.error('Error in PaymentBrick onSubmit fetch:', error);
+          throw error;
         }
-        return result;
       }}
       onError={(error: unknown) => console.error('MercadoPago Brick error:', error)}
     />
